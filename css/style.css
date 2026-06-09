@@ -1,0 +1,102 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+@import "tailwindcss";
+
+/* Pretendard font assignment */
+body {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overscroll-behavior: none;
+  background-color: #EBF4FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* 1080x1920 Fixed Signage Outer Scale Container */
+#signage-canvas {
+  width: 1080px;
+  height: 1920px;
+  min-width: 1080px;
+  min-height: 1920px;
+  background-color: #EBF4FF;
+  box-sizing: border-box;
+  padding: 0px 20px 48px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+/* Glassmorphism Design Elements */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 32px;
+  box-shadow: 0 32px 80px -15px rgba(0, 108, 255, 0.08);
+}
+
+.glass-bubble {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 24px 60px -12px rgba(0, 108, 255, 0.06);
+}
+
+/* Custom Scrollbar for Lap recording container */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 108, 255, 0.15);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 108, 255, 0.3);
+}
+
+/* Micro-animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.12;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.38;
+  }
+}
+
+.animate-float-slow {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: float 3.5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}

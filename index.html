@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>스톱워치 키오스크</title>
+    <!-- CSS Style Connection -->
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body class="bg-[#D4E4F5] text-slate-800 antialiased selection:bg-blue-100 select-none">
+    
+    <!-- 1080x1920 Fixed Signage Canvas Wrapper -->
+    <div id="signage-canvas" class="relative">
+      
+      <!-- HEADER LAYER (Height matches 120px, responsive, layout text matches specs) -->
+      <header class="w-full h-[120px] flex items-center justify-between mt-0 pt-0 mb-4 border-b border-blue-50/50 pb-4">
+        <!-- Back Icon & Title Group -->
+        <div class="flex items-center gap-6">
+          <button class="p-3 hover:bg-white/40 active:scale-95 rounded-full transition-all flex items-center justify-center border border-white/20">
+            <!-- Back chevron icon scaled to exactly 52px -->
+            <svg class="w-[52px] h-[52px] text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </button>
+          <h1 class="text-[52px] font-semibold text-slate-800 tracking-tight">스톱워치</h1>
+        </div>
+        
+        <!-- Close Button (Closed font scaled to 36px) -->
+        <button class="px-8 py-4 bg-white hover:bg-slate-50 transition-colors border border-white/80 rounded-2xl shadow-sm text-[36px] font-semibold text-slate-600 active:scale-95">
+          닫기
+        </button>
+      </header>
+
+      <!-- MAIN AREA CONTENTS -->
+      <main class="w-full flex-1 flex flex-col justify-start overflow-hidden">
+        
+        <!-- TIME DISPLAY TIMER (High visible, no overlay) -->
+        <section class="w-full text-center mt-6 flex items-center justify-center">
+          <h2 id="stopwatch-display" class="text-[154px] font-black tracking-tighter font-mono text-slate-600 leading-none transition-all duration-300">
+            00:00.00
+          </h2>
+        </section>
+
+        <!-- CHARACTER & SPEECH BALLOON LAYER (Adjusted gaps to prevent overlap) -->
+        <section class="relative w-full flex flex-col items-center mt-10 mb-4">
+          <!-- Ambient glowing background indicator -->
+          <div id="speech-glow" class="absolute inset-0 max-w-[420px] mx-auto bg-[#006CFF] blur-[60px] rounded-full pointer-events-none z-0 opacity-0 transition-opacity duration-500"></div>
+
+          <!-- Floating visual background helpers (Stars) -->
+          <div class="absolute top-12 left-16 animate-float-slow">
+            <svg class="w-12 h-12 text-yellow-400 fill-yellow-400 opacity-60" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div class="absolute top-24 right-16 animate-float-fast">
+            <svg class="w-14 h-14 text-blue-300 fill-blue-300 opacity-80" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+
+          <!-- Speech bubble layout -->
+          <div class="relative z-10 bg-white/95 px-10 py-6 rounded-[36px] shadow-2xl border border-blue-50/50 text-center min-w-[420px] max-w-[500px] mb-8 glass-bubble">
+            <p id="speech-text" class="text-[26px] font-extrabold whitespace-pre-line leading-relaxed text-slate-600">
+              준비됐나요?<br>시작 버튼을 눌러보세요!
+            </p>
+            <!-- Speech Arrow -->
+            <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-white rotate-45 border-r border-b border-blue-50/50"></div>
+          </div>
+
+          <!-- Big Bear Character Image sourced safely from assets -->
+          <div class="relative z-0 pointer-events-none select-none">
+            <img 
+              src="./assets/image_stopwatch.png" 
+              alt="Bear Character" 
+              class="w-[360px] h-[360px] object-contain drop-shadow-xl"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+        </section>
+
+        <!-- LAP SPLIT RECORD CARD (Inner padding: 32px, Radius: 32px, custom shadow) -->
+        <section class="w-full flex-1 mb-[20px]">
+          <div class="w-full h-full flex flex-col glass-panel p-8 max-h-[710px] min-h-[680px]">
+            <!-- Header elements of Laps Box -->
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+              <div class="flex items-center gap-4">
+                <!-- Icon scaled down 30% as requested -->
+                <div class="p-3 bg-blue-50 rounded-xl">
+                  <svg class="w-7 h-7 text-blue-500 fill-blue-500/20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                    <line x1="4" x2="4" y1="22" y2="15"/>
+                  </svg>
+                </div>
+                <h3 class="font-bold text-[34px] text-slate-800">랩 기록</h3>
+              </div>
+              
+              <!-- Clear Laps buttons -->
+              <button id="clear-laps-btn" class="text-[24px] font-medium text-slate-400 hover:text-red-500 active:scale-95 transition-all py-2 px-5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                기록 초기화
+              </button>
+            </div>
+
+            <!-- List box with custom overflow scrollbar -->
+            <div id="laps-container" class="flex-1 overflow-y-auto pr-1 space-y-3 custom-scrollbar flex flex-col justify-start">
+              <!-- Default empty text when list is clear -->
+              <div id="empty-state" class="flex-1 flex flex-col items-center justify-center text-slate-300 py-12">
+                <svg class="w-20 h-20 mb-4 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="8" h="4" x="8" y="2" rx="1" ry="1"/>
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                  <path d="m9 14 2 2 4-4"/>
+                </svg>
+                <p class="text-[24px] font-medium">기록된 랩이 없습니다.</p>
+              </div>
+
+              <!-- Interactively inserted lap metrics list -->
+              <div id="laps-list" class="space-y-4 hidden pb-4"></div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- BOTTOM CONTROL PANEL CTA (Height: 240px, Button gap: 20px, Ratio 1:1:2) -->
+      <footer class="w-full h-[240px] grid grid-cols-[1fr_1fr_2fr] items-center gap-[20px] pointer-events-auto">
+        <!-- Reset Button (Ratio 1) -->
+        <button id="reset-btn" class="flex flex-col items-center justify-center gap-4 bg-white hover:bg-slate-50 text-slate-400 hover:text-slate-600 disabled:opacity-50 h-full rounded-[32px] border border-white border-2 shadow-2xl shadow-blue-900/5 transition-all duration-150 active:scale-95 select-none" disabled>
+          <svg class="w-14 h-14 stroke-[2.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+          <span class="text-[52px] font-medium tracking-tight leading-none">초기화</span>
+        </button>
+
+        <!-- Lap Button (Ratio 1) -->
+        <button id="lap-btn" class="flex flex-col items-center justify-center gap-4 bg-white hover:bg-slate-50 text-slate-400 hover:text-slate-600 disabled:opacity-50 h-full rounded-[32px] border border-white border-2 shadow-2xl shadow-blue-900/5 transition-all duration-150 active:scale-95 select-none" disabled>
+          <svg class="w-14 h-14 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+            <line x1="4" x2="4" y1="22" y2="15"/>
+          </svg>
+          <span class="text-[52px] font-medium tracking-tight leading-none">랩</span>
+        </button>
+
+        <!-- Start/Stop Toggle Action (Ratio 2) -->
+        <button id="start-stop-btn" class="flex flex-col items-center justify-center gap-4 text-white h-full rounded-[32px] shadow-2xl transition-all duration-150 border-none select-none">
+          <!-- Interactive SVG/Label injected dynamically -->
+        </button>
+      </footer>
+
+    </div>
+
+    <!-- JS Logic Connection -->
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
