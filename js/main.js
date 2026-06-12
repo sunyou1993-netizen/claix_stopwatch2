@@ -18,9 +18,18 @@ const speechGlow = document.getElementById('speech-glow');
 const resetBtn = document.getElementById('reset-btn');
 const lapBtn = document.getElementById('lap-btn');
 const startStopBtn = document.getElementById('start-stop-btn');
-const clearLapsBtn = document.getElementById('clear-laps-btn');
+const viewRecordsBtn = document.getElementById('view-records-btn');
 const lapsList = document.getElementById('laps-list');
 const emptyState = document.getElementById('empty-state');
+const bearCharacter = document.getElementById('bear-character');
+
+// Modal Elements
+const recordsModal = document.getElementById('records-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+const modalClearLapsBtn = document.getElementById('modal-clear-laps-btn');
+const modalEmptyState = document.getElementById('modal-empty-state');
+const modalLapsList = document.getElementById('modal-laps-list');
 
 // SVGs for Start/Stop Button
 const playIconSvg = `
@@ -91,6 +100,15 @@ function updateState() {
     }
     speechGlow.classList.add('opacity-0');
     speechGlow.classList.remove('opacity-100', 'animate-pulse-glow');
+  }
+
+  // Handle bear swinging interaction when isRunning
+  if (bearCharacter) {
+    if (isRunning) {
+      bearCharacter.classList.add('animate-bear-swing');
+    } else {
+      bearCharacter.classList.remove('animate-bear-swing');
+    }
   }
 
   // Render start & stop button content
@@ -171,6 +189,7 @@ function handleLap() {
 }
 
 function renderLaps() {
+  // 1. Render on-screen main list
   if (laps.length === 0) {
     emptyState.classList.remove('hidden');
     lapsList.classList.add('hidden');
@@ -191,6 +210,28 @@ function renderLaps() {
       lapsList.appendChild(item);
     });
   }
+
+  // 2. Render Modal records list
+  if (laps.length === 0) {
+    modalEmptyState.classList.remove('hidden');
+    modalLapsList.classList.add('hidden');
+    modalLapsList.innerHTML = '';
+  } else {
+    modalEmptyState.classList.add('hidden');
+    modalLapsList.classList.remove('hidden');
+    modalLapsList.innerHTML = '';
+    
+    laps.forEach((lap, index) => {
+      const lapNum = laps.length - index;
+      const item = document.createElement('div');
+      item.className = "flex items-center justify-between bg-slate-100/60 rounded-2xl p-6 border border-slate-200/50 shadow-sm";
+      item.innerHTML = `
+        <span class="text-[30px] font-black text-blue-500 tracking-wider">LAP ${lapNum}</span>
+        <span class="font-mono text-4xl font-extrabold text-slate-700">${lap.time}</span>
+      `;
+      modalLapsList.appendChild(item);
+    });
+  }
 }
 
 function clearLaps() {
@@ -198,11 +239,26 @@ function clearLaps() {
   renderLaps();
 }
 
+// Modal Toggle Handlers
+function openRecordsModal() {
+  recordsModal.classList.remove('hidden');
+  renderLaps();
+}
+
+function closeRecordsModal() {
+  recordsModal.classList.add('hidden');
+}
+
 // Wire Event Listeners
 startStopBtn.addEventListener('click', handleStartStop);
 resetBtn.addEventListener('click', handleReset);
 lapBtn.addEventListener('click', handleLap);
-clearLapsBtn.addEventListener('click', clearLaps);
+
+// Modal listeners
+viewRecordsBtn.addEventListener('click', openRecordsModal);
+closeModalBtn.addEventListener('click', closeRecordsModal);
+modalConfirmBtn.addEventListener('click', closeRecordsModal);
+modalClearLapsBtn.addEventListener('click', clearLaps);
 
 // Handle window resizing / centering scale
 window.addEventListener('resize', resizeSignage);

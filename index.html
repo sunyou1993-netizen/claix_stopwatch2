@@ -14,14 +14,8 @@
       
       <!-- HEADER LAYER (Height matches 120px, responsive, layout text matches specs) -->
       <header class="w-full h-[120px] flex items-center justify-between mt-0 pt-0 mb-4 border-b border-blue-50/50 pb-4">
-        <!-- Back Icon & Title Group -->
+        <!-- Title Group -->
         <div class="flex items-center gap-6">
-          <button class="p-3 hover:bg-white/40 active:scale-95 rounded-full transition-all flex items-center justify-center border border-white/20">
-            <!-- Back chevron icon scaled to exactly 52px -->
-            <svg class="w-[52px] h-[52px] text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m15 18-6-6 6-6"/>
-            </svg>
-          </button>
           <h1 class="text-[52px] font-semibold text-slate-800 tracking-tight">스톱워치</h1>
         </div>
         
@@ -70,6 +64,7 @@
           <!-- Big Bear Character Image sourced safely from assets -->
           <div class="relative z-0 pointer-events-none select-none">
             <img 
+              id="bear-character"
               src="./assets/image_stopwatch.png" 
               alt="Bear Character" 
               class="w-[360px] h-[360px] object-contain drop-shadow-xl"
@@ -94,9 +89,9 @@
                 <h3 class="font-bold text-[34px] text-slate-800">랩 기록</h3>
               </div>
               
-              <!-- Clear Laps buttons -->
-              <button id="clear-laps-btn" class="text-[24px] font-medium text-slate-400 hover:text-red-500 active:scale-95 transition-all py-2 px-5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
-                기록 초기화
+              <!-- View Laps records button -->
+              <button id="view-records-btn" class="text-[24px] font-bold text-[#006CFF] hover:text-blue-600 active:scale-95 transition-all py-2 px-5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100/50">
+                기록 전체보기
               </button>
             </div>
 
@@ -145,6 +140,59 @@
           <!-- Interactive SVG/Label injected dynamically -->
         </button>
       </footer>
+
+      <!-- FULL RECORDS MODAL -->
+      <div id="records-modal" class="hidden absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-[150] flex items-center justify-center p-12 transition-opacity duration-300">
+        <!-- Modal content card -->
+        <div class="bg-white rounded-[48px] w-[900px] h-[1300px] max-h-[85%] shadow-2xl flex flex-col p-10 border border-slate-100 transform scale-95 transition-transform duration-300">
+          
+          <!-- Modal Header -->
+          <div class="flex items-center justify-between pb-6 border-b border-slate-100 mb-8">
+            <div class="flex items-center gap-4">
+              <span class="p-4 bg-blue-50 rounded-2xl">
+                <svg class="w-10 h-10 text-blue-500 fill-blue-500/20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                  <line x1="4" x2="4" y1="22" y2="15"/>
+                </svg>
+              </span>
+              <h2 class="text-[44px] font-extrabold text-slate-800">전체 기록 목록</h2>
+            </div>
+            
+            <button id="close-modal-btn" class="p-3 hover:bg-slate-100 active:scale-95 rounded-full transition-all flex items-center justify-center">
+              <svg class="w-[52px] h-[52px] text-slate-400 hover:text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Modal Body with Scroll -->
+          <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar flex flex-col">
+            <!-- Modal empty state inside -->
+            <div id="modal-empty-state" class="flex-1 flex flex-col items-center justify-center text-slate-300 py-12">
+              <svg class="w-24 h-24 mb-4 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="8" h="4" x="8" y="2" rx="1" ry="1"/>
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                <path d="m9 14 2 2 4-4"/>
+              </svg>
+              <p class="text-[32px] font-medium text-slate-400">기록된 랩이 없습니다.</p>
+            </div>
+
+            <!-- Modal list target element -->
+            <div id="modal-laps-list" class="space-y-4 pb-4 hidden"></div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="pt-8 border-t border-slate-100 mt-6 flex items-center justify-center gap-6">
+            <button id="modal-clear-laps-btn" class="flex-1 py-6 bg-rose-50 hover:bg-rose-100 text-rose-500 rounded-[24px] text-[32px] font-bold active:scale-95 transition-all">
+              전체 삭제
+            </button>
+            <button id="modal-confirm-btn" class="flex-2 py-6 bg-[#006CFF] hover:bg-blue-600 text-white rounded-[24px] text-[32px] font-bold shadow-lg shadow-blue-200 active:scale-95 transition-all">
+              확인
+            </button>
+          </div>
+        </div>
+      </div>
 
     </div>
 

@@ -100,3 +100,19 @@ body {
 .animate-pulse-glow {
   animation: pulseGlow 2.5s ease-in-out infinite;
 }
+
+/* Bear Character Hand Swinging Animation */
+@keyframes bearHandSwing {
+  0%, 100% {
+    transform: rotate(-6deg) translateY(0px) translateX(-5px);
+  }
+  50% {
+    transform: rotate(6deg) translateY(-4px) translateX(5px);
+  }
+}
+
+.animate-bear-swing {
+  animation: bearHandSwing 1.0s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
