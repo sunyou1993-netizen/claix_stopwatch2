@@ -22,6 +22,7 @@ const viewRecordsBtn = document.getElementById('view-records-btn');
 const lapsList = document.getElementById('laps-list');
 const emptyState = document.getElementById('empty-state');
 const bearCharacter = document.getElementById('bear-character');
+const closeAppBtn = document.getElementById('close-app-btn');
 
 // Modal Elements
 const recordsModal = document.getElementById('records-modal');
@@ -259,6 +260,18 @@ viewRecordsBtn.addEventListener('click', openRecordsModal);
 closeModalBtn.addEventListener('click', closeRecordsModal);
 modalConfirmBtn.addEventListener('click', closeRecordsModal);
 modalClearLapsBtn.addEventListener('click', clearLaps);
+
+// Close App redirect & Close Window
+if (closeAppBtn) {
+  closeAppBtn.addEventListener('click', () => {
+    // Try to close the browser window/tab
+    window.close();
+    // Fallback: redirect if the window close was ignored by the browser
+    setTimeout(() => {
+      window.location.href = 'https://claix-toolkit-xzrp.vercel.app/';
+    }, 100);
+  });
+}
 
 // Handle window resizing / centering scale
 window.addEventListener('resize', resizeSignage);
